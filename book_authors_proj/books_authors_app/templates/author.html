@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <h1>hello world</h1> -->
+    <div class="container">
+        <div class="row col-sm-4">
+            <form action="/create_author" method="POST">
+
+                {% csrf_token %}
+                <h2>ADD AN AUTHOR</h2>
+                <div class="form-group row mt-2">
+                    <label for="first_name" class="col-sm-4 col-form-label">First name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="col-sm-8" name="first_name" id="first_name">
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <label for="last_name" class="col-sm-4 col-form-label">Last name</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="last_name" id="last_name">
+                    </div>
+                </div>
+                <div class="form-group row mt-4">
+                    <label for="note" class="col-sm-4 col-form-label">Notes</label>
+                    <div class="col-sm-10">
+                        <textarea name="note" id="note" cols="30"></textarea>
+                    </div>
+                    <button class="btn btn-primary mt-2">ADD</button>
+                </div>
+        </div>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+        <table class="table table-md">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Action</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                <tr>
+                    <th scope="row">{{author.id}}</th>
+                    <td>{{author.first_name}} {{author.last_name}}</td>
+                    <td><a href="/author/{{author.id}}">View</a></td>
+                    <td><a href="/author/{{author.id}}/delete">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
