@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
 from .models import Show
 
 def shows(request):
@@ -13,7 +14,11 @@ def add_shows(request):
 def create(request):
     # if request.method=='POST':
     #     return redirect('/new')
-    
+    errors = Show.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/new')
     new_show=Show.objects.create(
         title=request.POST['title'],
         network=request.POST['network'],
@@ -42,6 +47,11 @@ def edit_page(request,id):
 
 def update(request,id):
     show=Show.objects.get(id=id)
+    errors = Show.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect(f'/all/{show.id}/edit')   
     show.title=request.POST['title']
     show.network=request.POST['network']
     show.date=request.POST['date']

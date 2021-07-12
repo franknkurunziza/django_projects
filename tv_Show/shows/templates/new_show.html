@@ -37,7 +37,16 @@
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
+        {% if messages %}
+<ul class="messages">    
+    {% for message in messages %}    
+        <li >{{ message }}</li>    
+    {% endfor %}
+</ul>
+{% endif %}
+
     </div>
+
 
 </body>
 
