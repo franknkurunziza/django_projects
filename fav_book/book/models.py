@@ -58,7 +58,7 @@ class User(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     objects=UserManager()
-    # liked_books=all
+    # liked_books=all 
 
 
 class Book(models.Model):

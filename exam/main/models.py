@@ -29,7 +29,21 @@ class UserManager(models.Manager):
 
         
         return errors
-    
+class WishManager(models.Manager):
+    def wish_valid(self,postData):
+        errors={}
+
+        if len(postData['item'])<3:
+            errors['item']='A Wish must consist of at least 3 characters!'
+
+        if len(postData['description'])<3:
+            errors['description']='The description must be provided!'
+
+
+        return errors   
+
+
+
 
 class User(models.Model):
     first_name=models.CharField(max_length=255)
@@ -39,4 +53,17 @@ class User(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     objects=UserManager()
-# Create your models here.
+    #likeed_wishes many to many
+    #user
+
+class Wish(models.Model):
+    item=models.CharField(max_length=50)
+    description=models.TextField()
+    wish_granted=models.BooleanField(default=False,null=True)
+    wished_by=models.ForeignKey(User, related_name="wishes", on_delete=models.CASCADE)
+    users_who_liked=models.ManyToManyField(User,related_name='liked_wishes')
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    objects=WishManager()
+
+

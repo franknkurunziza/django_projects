@@ -9,10 +9,10 @@
     <title>Document</title>
 </head>
 <body>
+    <h2>Welcome, {{request.session.user_firstname}}</h2>
+    <a href="/books">Home</a>
+    <span style="margin-left: 75%;"><a href="/user/log_out">Logout</a></span>
     <div class="row">
-        <h2>Welcome, {{request.session.user_firstname}}</h2>
-        <a href="/user/log_out">Logout</a>
-        <a href="/books">Home</a>
     </div>
     <hr>
     <div class="container">

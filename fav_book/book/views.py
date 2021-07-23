@@ -30,19 +30,21 @@ def create(request):
 
 
 def login(request):
-    user_list = User.objects.filter(email=request.POST['email'])
-    print(user_list)
-    if user_list:
-        logged_user = user_list[0]
-        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-            request.session['log_user_id'] = logged_user.id
-            request.session['user_firstname']=logged_user.first_name
-            request.session['user_lastname']=logged_user.last_name
-            return redirect('/books')
-        else:
-            messages.error(request, "Invalid email or password", extra_tags='not_found')
-            return redirect('/')
-    messages.error(request, "Email Not Found", extra_tags='not_found')
+    if request.method== 'POST':
+        user_list = User.objects.filter(email=request.POST['email'])
+
+        if user_list:
+            logged_user = user_list[0]
+            if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
+                request.session['log_user_id'] = logged_user.id
+                request.session['user_firstname']=logged_user.first_name
+                request.session['user_lastname']=logged_user.last_name
+                return redirect('/books')
+            else:
+                messages.error(request, "Invalid email or password", extra_tags='not_found')
+                return redirect('/')
+        messages.error(request, "Email Not Found", extra_tags='not_found')
+        return redirect('/')
     return redirect('/')
 
 def logout(request):
